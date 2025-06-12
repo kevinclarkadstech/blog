@@ -40,6 +40,7 @@ import "./theme/variables.css";
 import { BlogPage } from "./pages/BlogPage/BlogPage";
 import { BlogPostPage } from "./pages/BlogPostPage/BlogPostPage";
 import { AppHeader } from "./components/AppHeader/AppHeader";
+import { BlogPostKey } from "./constants/blogList";
 
 setupIonicReact();
 
@@ -61,7 +62,9 @@ const App: React.FC = () => {
               path="/blog/:postUrl"
               exact={true}
               render={(props) => (
-                <BlogPostPage postUrl={props.match.params.postUrl} />
+                <BlogPostPage
+                  postUrl={props.match.params.postUrl as BlogPostKey}
+                />
               )}
             />
           </IonRouterOutlet>
