@@ -11,13 +11,15 @@ import "prismjs/themes/prism-tomorrow.min.css";
 import { IonButton, IonIcon, IonText } from "@ionic/react";
 import { copyOutline } from "ionicons/icons";
 
-type AllowedChildren = JSX.Element | string | Function;
+type AllowedChildren = JSX.Element | string; // | Function;
 export function CodeBlock({
   children,
   language,
+  removeFnNameAndBrackets = true,
 }: {
   children: AllowedChildren;
   language: "javascript" | "typescript" | "html" | "css" | "jsx";
+  removeFnNameAndBrackets?: boolean;
 }) {
   const preRef = useRef<HTMLPreElement>(null);
 
@@ -32,25 +34,22 @@ export function CodeBlock({
     }
   });
 
-  function removeLeadingSpaces(multilineString: string): string {
+  function removeLeadingSpacesFromMultilineString(
+    multilineString: string
+  ): string {
     return multilineString
       .split("\n")
       .map((line) => line.trimStart())
       .join("\n");
   }
 
-  function renderContent(content: JSX.Element | string | Function): string {
+  function renderContent(content: AllowedChildren): string {
     if (typeof content === "string") {
-      return content;
-    }
-    if (typeof content === "function") {
-      console.log("content", content.toString());
-      console.log("indexof", content.toString().indexOf("{"));
-      const string = removeLeadingSpaces(
-        content.toString().slice(content.toString().indexOf("{") + 1, -1)
-      );
-      console.log("string", string);
-      return string.trimStart();
+      return removeFnNameAndBrackets
+        ? removeLeadingSpacesFromMultilineString(
+            content.toString().slice(content.toString().indexOf("{") + 1, -1)
+          ).trimStart()
+        : content;
     }
     return renderToString(content);
   }

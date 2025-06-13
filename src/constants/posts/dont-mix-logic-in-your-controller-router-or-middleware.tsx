@@ -174,10 +174,10 @@ export const dontMixLogicInYourControllerRouterOrMiddleware: BlogPost = {
         `}
       </CodeBlock>
       <CodeBlock language="typescript">
-        {() => {
+        {(() => {
           const test = "test";
           return ``;
-        }}
+        }).toString()}
       </CodeBlock>
       <CodeBlock language="css">{`.test {
  color: red;
