@@ -132,7 +132,7 @@ export const dontMixLogicInYourControllerRouterOrMiddleware: BlogPost = {
         . If logic is kept separate from these things, AI can help writing unit
         tests (almost write themselves!!), the unit tests do not need to mock
         dependencies, and the logic is much more readable and approachable for
-        developers who are not familiar with it.
+        developers who are not familiar with it...
       </p>
       <h3>Final Thoughts (tl;dr)</h3>
       <p>
@@ -174,10 +174,10 @@ export const dontMixLogicInYourControllerRouterOrMiddleware: BlogPost = {
         `}
       </CodeBlock>
       <CodeBlock language="typescript">
-        {(() => {
+        {`${() => {
           const test = "test";
           return ``;
-        }).toString()}
+        }}`}
       </CodeBlock>
       <CodeBlock language="css">{`.test {
  color: red;
