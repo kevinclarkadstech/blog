@@ -44,6 +44,8 @@ export function CodeBlock({
       return content;
     }
     if (typeof content === "function") {
+      console.log("content", content.toString());
+      console.log("indexof", content.toString().indexOf("{"));
       const string = removeLeadingSpaces(
         content.toString().slice(content.toString().indexOf("{") + 1, -1)
       );
