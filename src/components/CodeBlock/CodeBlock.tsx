@@ -32,12 +32,23 @@ export function CodeBlock({
     }
   });
 
+  function removeLeadingSpaces(multilineString: string): string {
+    return multilineString
+      .split("\n")
+      .map((line) => line.trimStart())
+      .join("\n");
+  }
+
   function renderContent(content: JSX.Element | string | Function): string {
     if (typeof content === "string") {
       return content;
     }
     if (typeof content === "function") {
-      return content.toString();
+      const string = removeLeadingSpaces(
+        content.toString().slice(content.toString().indexOf("{") + 1, -1)
+      );
+      console.log("string", string);
+      return string.trimStart();
     }
     return renderToString(content);
   }

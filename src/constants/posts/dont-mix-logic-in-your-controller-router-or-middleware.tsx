@@ -33,55 +33,96 @@ export const dontMixLogicInYourControllerRouterOrMiddleware: BlogPost = {
             friction.
           </p>
         </IonText>
-        <li>
-          It ties you to the framework and makes refactoring less possible, or
-          at least more tedious.
-        </li>
+        <li>Tight Coupling To Frameworks and Libraries.</li>
         <IonText color="medium">
           <p style={{ fontSize: "0.9em", fontStyle: "italic" }}>
-            With web applications that I architect, the reason I have the
-            router/controller have minimal responsibility other than receiving
-            the request and invoking a service function is it provides agility
-            to easily refactor. For example, suppose if I had a hosted
-            Node.js/Express app that exploded in popularity and I wanted to
-            convert to serverless functions like AWS Lambda or Azure Functions -
-            this would be trivial and low-risk.
+            Embedding logic in controllers or middleware binds your application
+            logic to a specific web framework (e.g., Express, Fastify, NestJS).
+            This makes refactoring more painful and can lock you into
+            architectural decisions. By contrast, if your logic is encapsulated
+            in independent service functions, migrating to a different runtime
+            (such as AWS Lambda, Azure Functions, or even a different framework)
+            becomes straightforward and low-risk. With web applications that I
+            architect, the reason I have the router/controller have minimal
+            responsibility other than receiving the request and invoking a
+            service function is primarily because it provides agility to easily
+            refactor. For example, suppose if I had a hosted Node.js/Express app
+            that exploded in popularity and I wanted to convert to serverless
+            functions like AWS Lambda or Azure Functions - this would be trivial
+            and low-risk.
           </p>
         </IonText>
-        <li>
-          It makes it difficult, if not impossible, to share the logic easily.
-        </li>
+        <li>Inhibits Reusability and Sharing of Logic.</li>
         <IonText color="medium">
           <p style={{ fontSize: "0.9em", fontStyle: "italic" }}>
-            DRY pattern becomes much more important when it comes to business
-            logic. You do not want to duplicate logic if possible, because any
-            changes to the logic must be done in multiple places. It’s better to
-            keep logic at the service layer as it is easier to maintain and
-            share if business requirements change.
+            Business logic often needs to be reused across different parts of an
+            application—or even across different apps. If that logic is embedded
+            in route handlers or middleware, it’s not portable. Keeping it in
+            standalone, framework-agnostic functions or classes makes it much
+            easier to reuse and test in isolation.
+          </p>
+        </IonText>
+        <li>Violates the DRY Principle</li>
+        <IonText color="medium">
+          <p style={{ fontSize: "0.9em", fontStyle: "italic" }}>
+            When logic is scattered across multiple controllers or middleware,
+            it often leads to code duplication. This violates the DRY (Don't
+            Repeat Yourself) principle, making the codebase harder to maintain.
+            If you need to change a piece of logic, you may have to update it in
+            multiple places, increasing the risk of bugs/inconsistencies when
+            business requirements change.
           </p>
         </IonText>
       </ol>
+
+      <strong>Well, What Should I Use Controllers/Middleware For?</strong>
       <p>
-        <strong>So all middleware is an anti-pattern?</strong>
-        <br />
-        <br />
-        Absolutely not. But I would say it’s best for things that don’t fall
-        under logic. A good use case would be populating the user from the
-        request by verifying the token and pulling the user from the database,
-        transforming the shape of the body (perhaps for backwards compatibility
-        issues), doing object mapping, instantiating a dependency, etc. There is
-        a bit of a “gray area”, and that comes with object parsing/validation
-        with something like Zod at the middleware level so the request body is
-        already validated when the controller gets the request.
+        Middleware and controllers play an important role—but their
+        responsibilities should be narrowly defined. Here are appropriate use
+        cases:
       </p>
+      <strong>Middleware:</strong>
+      <br />
+      <br />
+      <ul>
+        <li>Logging: Capturing request and response details for monitoring.</li>
+        <li>Rate limiting: Throttling requests to prevent abuse or overuse.</li>
+        <li>CORS: Handling cross-origin resource sharing policies.</li>
+        <li>
+          Security: Validating tokens, checking permissions, etc. (e.g., JWT
+          validation).
+        </li>
+        <li>
+          Request parsing: Parsing JSON bodies, query parameters, etc, using
+          Open API or Zod.
+        </li>
+        <li>
+          Authentication: Parsing tokens and attaching the user to the request.
+        </li>
+        <li>
+          Request transformation: Mapping or reshaping incoming data for
+          backward compatibility.
+        </li>
+        <li>
+          Dependency injection: Creating or gathering dependencies needed by the
+          logic and/or data access layers.
+        </li>
+      </ul>
+      <strong>Controllers/Routers:</strong>
+      <br />
+      <br />
+      <ul>
+        <li>Accept and route incoming requests.</li>
+        <li>Delegate to appropriate service or domain-layer functions.</li>
+        <li>Handle formatting of responses and status codes.</li>
+      </ul>
+
+      <h3>What's The Alternative?</h3>
       <p>
-        <strong>What do you (the author) propose?</strong>
-        <br />
-        <br />
-        In my opinion, logic should be separated from 3rd party dependencies as
-        much as possible (unless they are helping validate something). So I
-        would say the logic functions should be pure functions without side
-        effects such as pulling data from the database, etc. For more, see:
+        In my opinion, logic should be separated from data access and 3rd party
+        dependencies as much as possible. So I would say the logic functions
+        should be pure functions without side effects such as pulling data from
+        the database, etc. For more, see:
         <a
           href="https://github.com/kevinclarkadstech/ABAC-Authorization-Ideas"
           target="_blank"
@@ -93,13 +134,49 @@ export const dontMixLogicInYourControllerRouterOrMiddleware: BlogPost = {
         dependencies, and the logic is much more readable and approachable for
         developers who are not familiar with it.
       </p>
-      <CodeBlock language="jsx">
-        <div>Hello</div>
+      <h3>Final Thoughts (tl;dr)</h3>
+      <p>
+        Avoiding logic in controllers or middleware isn't just about code
+        cleanliness—it's about flexibility, testability, and long-term
+        maintainability. As projects grow, well-defined boundaries between
+        layers pay massive dividends in agility and developer productivity.
+      </p>
+      <CodeBlock language="html">
+        {`
+<!-- Don't do this -->
+[ Request ] 
+    ↓ 
+[ Controller ] 
+    ├── Validate Request 
+    ├── Authenticate User
+    ├── Fetch from DB 
+    ├── Apply Business Logic 
+        └── Return Response
+        `}
+      </CodeBlock>
+      <CodeBlock language="html">
+        {`
+<!-- Do this instead -->
+[ Request ]
+    ↓
+[ Middleware ]
+    ├── Validate Request
+    ├── Authenticate User
+    └── Attach User to Request
+[ Controller ]
+    ├── Route Request
+    └── Call Service Function
+[ Service/Logic Layer ]
+    ├── Apply Business Logic
+    |── Call Data Access Layer (if needed)
+[ Data Access Layer ]
+    └── Interact With DB
+        `}
       </CodeBlock>
       <CodeBlock language="typescript">
-        {function test() {
-          const test: string = "This is a test";
-          return test;
+        {() => {
+          const test = "test";
+          return ``;
         }}
       </CodeBlock>
       <CodeBlock language="css">{`.test {
