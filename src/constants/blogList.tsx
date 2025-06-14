@@ -16,6 +16,7 @@
 import { JSX } from "react";
 import { dontMixLogicInYourControllerRouterOrMiddleware } from "./posts/dont-mix-logic-in-your-controller-router-or-middleware";
 import { dontPutDatabaseAccessInLogicFunctions } from "./posts/dont-put-database-access-in-logic-functions";
+import { interfacesForAgilityAndTestabilityInTypescript } from "./posts/interfaces-for-agility-and-testability-in-typescript";
 
 //     };
 export type BlogList = {
@@ -35,4 +36,6 @@ export const blogList: BlogList = {
     dontMixLogicInYourControllerRouterOrMiddleware,
   "dont-put-database-access-in-logic-functions":
     dontPutDatabaseAccessInLogicFunctions,
+  "interfaces-for-agility-and-testability-in-typescript":
+    interfacesForAgilityAndTestabilityInTypescript,
 };

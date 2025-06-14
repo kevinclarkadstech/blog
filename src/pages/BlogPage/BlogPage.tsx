@@ -33,36 +33,12 @@ export function BlogPage() {
             </IonToolbar>
           </IonHeader>
           <IonList>
-            <IonItem
-              button
-              routerLink="/blog/dont-mix-logic-in-your-controller-router-or-middleware"
-            >
-              <IonLabel>
-                Don't Mix Logic In Your Controller/Router or Middleware
-              </IonLabel>
-            </IonItem>
-            <IonItem
-              button
-              routerLink="/blog/dont-put-database-access-in-logic-functions"
-            >
-              <IonLabel>Don't Put Database Access In Logic Functions</IonLabel>
-            </IonItem>
+            {Object.entries(blogList).map(([postUrl, post]) => (
+              <IonItem key={postUrl} button routerLink={`/blog/${postUrl}`}>
+                <IonLabel>{post.title}</IonLabel>
+              </IonItem>
+            ))}
           </IonList>
-          <IonButton
-            routerLink={
-              "/blog/dont-mix-logic-in-your-controller-router-middleware" as BlogPostUrl
-            }
-          >
-            Don't Mix Logic In Your Controller/Router or Middleware
-          </IonButton>
-          <IonButton
-            routerLink={
-              "/blog/dont-put-database-access-in-logic-functions" as BlogPostUrl
-            }
-          >
-            Don't Put Database Access In Logic Functions
-          </IonButton>
-          <IonButton href="/test/index.html">Test</IonButton>
         </IonContent>
       </IonPage>
     </>

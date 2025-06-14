@@ -45,11 +45,12 @@ export function CodeBlock({
 
   function renderContent(content: AllowedChildren): string {
     if (typeof content === "string") {
-      return removeFnNameAndBrackets
-        ? removeLeadingSpacesFromMultilineString(
-            content.toString().slice(content.toString().indexOf("{") + 1, -1)
-          ).trimStart()
-        : content;
+      //   return removeFnNameAndBrackets
+      //     ? removeLeadingSpacesFromMultilineString(
+      //         content.toString().slice(content.toString().indexOf("{") + 1, -1)
+      //       ).trimStart()
+      //     : content;
+      return content.trim();
     }
     return renderToString(content);
   }
