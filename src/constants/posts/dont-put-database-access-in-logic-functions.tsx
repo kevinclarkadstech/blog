@@ -160,7 +160,7 @@ export const dontPutDatabaseAccessInLogicFunctions: BlogPost = {
           different layers can be optimized or replaced independently.
         </li>
       </ul>
-      <h3>Conclusion (tl;dr)</h3>
+      <h3>Summary (tl;dr)</h3>
       <p>
         Directly embedding database access in logic functions is a clear
         anti-pattern that compromises key software qualities. By embracing

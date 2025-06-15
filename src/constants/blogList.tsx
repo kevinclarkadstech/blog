@@ -17,6 +17,7 @@ import { JSX } from "react";
 import { dontMixLogicInYourControllerRouterOrMiddleware } from "./posts/dont-mix-logic-in-your-controller-router-or-middleware";
 import { dontPutDatabaseAccessInLogicFunctions } from "./posts/dont-put-database-access-in-logic-functions";
 import { interfacesForAgilityAndTestabilityInTypescript } from "./posts/interfaces-for-agility-and-testability-in-typescript";
+import { fromModularMonolithToMicroservices } from "./posts/from-modular-monolith-to-microservices";
 
 //     };
 export type BlogList = {
@@ -38,4 +39,5 @@ export const blogList: BlogList = {
     dontPutDatabaseAccessInLogicFunctions,
   "interfaces-for-agility-and-testability-in-typescript":
     interfacesForAgilityAndTestabilityInTypescript,
+  "from-modular-monolith-to-microservices": fromModularMonolithToMicroservices,
 };

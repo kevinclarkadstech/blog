@@ -134,7 +134,7 @@ export const dontMixLogicInYourControllerRouterOrMiddleware: BlogPost = {
         dependencies, and the logic is much more readable and approachable for
         developers who are not familiar with it...
       </p>
-      <h3>Final Thoughts (tl;dr)</h3>
+      <h3>Summary (tl;dr)</h3>
       <p>
         Avoiding logic in controllers or middleware isn't just about code
         cleanliness—it's about flexibility, testability, and long-term

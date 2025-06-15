@@ -224,7 +224,7 @@ type CacheClient =
         This allows you to easily swap or expand your cache backends with
         minimal code changes.
       </p>
-      <h3>Summary:</h3>
+      <h3>Summary (tl;dr)</h3>
       <p>
         Interfaces are essential for building robust, testable, and adaptable
         software. Specifically:
